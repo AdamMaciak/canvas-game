@@ -40,15 +40,11 @@
 <body>
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-app.js"></script>
-
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
 <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-analytics.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-firestore.js"></script>
 
 <script>
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
     var firebaseConfig = {
         apiKey: "AIzaSyBQd1NXCPDMrruTiF0s_qQRLLW7NZwiJUA",
         authDomain: "cordova-game-8afc7.firebaseapp.com",
@@ -78,16 +74,14 @@
                 console.error("Error writing document: ", error);
             });
     }
+
 </script>
-<div class="app">
-    <h1>Apache Cordova</h1>
-    <div id="deviceready" class="blink">
-        <p class="event listening">Connecting to Device</p>
-        <p class="event received">Device is Ready</p>
-    </div>
-    <button onclick="addToDb()">Add to db</button>
-</div>
+<canvas id="gameCanvas"></canvas>
 <script src="cordova.js"></script>
-<script src="js/index.js"></script>
+<script src="js/frameworkFiles/CanvasGame.js"></script>
+<script src="js/frameworkFiles/GameObject.js"></script>
+<script src="js/Player.js"></script>
+<script src="js/game.js"></script>
+<script src="js/frameworkFiles/index.js"></script>
 </body>
 </html>
