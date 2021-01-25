@@ -43,44 +43,18 @@
 <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-analytics.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-firestore.js"></script>
 
-<script>
-
-    var firebaseConfig = {
-        apiKey: "AIzaSyBQd1NXCPDMrruTiF0s_qQRLLW7NZwiJUA",
-        authDomain: "cordova-game-8afc7.firebaseapp.com",
-        databaseURL: "https://cordova-game-8afc7.firebaseio.com",
-        projectId: "cordova-game-8afc7",
-        storageBucket: "cordova-game-8afc7.appspot.com",
-        messagingSenderId: "792085979743",
-        appId: "1:792085979743:web:45a13da97da51b2d8b31ea",
-        measurementId: "G-CTBQYGHQVX"
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
-    var db = firebase.firestore();
-
-    function addToDb() {
-        db.collection("cities").add({
-            name: "Los Angeles",
-            state: "CA",
-            country: "USA"
-        })
-            .then(function () {
-                console.log("Document successfully written!");
-                window.alert("Document saved")
-            })
-            .catch(function (error) {
-                console.error("Error writing document: ", error);
-            });
-    }
-
-</script>
 <canvas id="gameCanvas"></canvas>
+
 <script src="cordova.js"></script>
 <script src="js/frameworkFiles/CanvasGame.js"></script>
 <script src="js/frameworkFiles/GameObject.js"></script>
 <script src="js/Player.js"></script>
+<script src="js/Background.js"></script>
+<script src="js/database.js"></script>
+<script src="js/GameCamera.js"></script>
+<script src="js/GameMap.js"></script>
+<script src="js/WorldBuilder.js"></script>
+<script src="js/Tile.js"></script>
 <script src="js/game.js"></script>
 <script src="js/frameworkFiles/index.js"></script>
 </body>

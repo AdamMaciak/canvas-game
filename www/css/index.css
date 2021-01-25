@@ -20,6 +20,4 @@
 #gameCanvas {
     display: flex;
     margin: auto;
-    height: 98vh;
-    width: 99.5vw;
 }

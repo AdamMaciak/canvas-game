@@ -1,3 +1,0 @@
-class MapTile extends GameObject{
-
-}

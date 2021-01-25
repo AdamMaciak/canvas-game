@@ -1,6 +1,7 @@
+//set const tick game for all gameobject
 class Player extends GameObject {
 
-    constructor(playerSprite, x, y) {
+    constructor(playerSprite, x, y,gameCamera) {
         super(13);
         this.playerSprite = playerSprite;
         // this.NUMBER_OF_SPRITES = 20;
@@ -21,6 +22,7 @@ class Player extends GameObject {
         this.distanceMove = 2;
         this.isKeyDown = false
         this.keyName = null;
+        this.gameCamera=
         //    setInterval(this.shooting.bind(this), 900);
         document.addEventListener('keydown', (event) => {
             this.keyName = event.key;
@@ -37,6 +39,7 @@ class Player extends GameObject {
         this.draw();
     }
 
+    //there is only graphics displaying without logic object
     draw() {
         if (this.isAttack) {
             if (this.SPRITE_ATTACK_POSTION > this.ENDING_ATTACK) {
@@ -61,6 +64,7 @@ class Player extends GameObject {
     }
 
     updateState() {
+
         if (this.isKeyDown) {
             console.log(`keydown x: ${this.x}, y: '${this.y}'`)
             switch (this.keyName) {
