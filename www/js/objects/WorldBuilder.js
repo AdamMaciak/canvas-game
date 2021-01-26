@@ -38,4 +38,8 @@ class WorldBuilder {
     addBackgroundTiles() {
         return;
     }
+
+    drawGridLines() {
+
+    }
 }

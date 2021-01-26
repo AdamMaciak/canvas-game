@@ -20,4 +20,5 @@
 #gameCanvas {
     display: flex;
     margin: auto;
+    width: 99vw;
 }

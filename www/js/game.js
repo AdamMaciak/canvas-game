@@ -3,7 +3,7 @@ backgroundImage.src = "img/background.png";
 let blocksImage = new Image();
 blocksImage.src = "img/tileSet.png";
 let excaliburImage = new Image();
-excaliburImage.src = "img/swordImage.png"
+excaliburImage.src = "img/Excalibur.png"
 let playerImage = new Image();
 playerImage.src = "img/char_sprite.png";
 
@@ -31,20 +31,30 @@ const positionOfDirtBlock = {
 
 const tileSize = 64;
 
+let gameMap = new GameMap(mapLogic);
+
+let keyName = null;
+let isKeyDown = false;
 
 function playGame() {
-
-    let canvasGame = new GameCamera(0, 0);
-    let gameMap = new GameMap(mapLogic);
-    console.log(gameMap);
-    let worldBuilder = new WorldBuilder(gameMap, blocksImage, canvasGame,10);
-    let background = new Background(backgroundImage);
-    let player = new Player(playerImage, 100, 100);
     console.log('play');
+    let gameCamera = new GameCamera(0, 0);
+
+    let worldBuilder = new WorldBuilder(gameMap, blocksImage, gameCamera, 10);
+    let background = new Background(backgroundImage);
+    let player = new Player(playerImage, 100, 100, gameCamera);
+    let excalibur = new Excalibur(100, 100, excaliburImage);
+    let grid = new Grid(gameCamera);
     gameObjects.push(background);
     worldBuilder.build()
-    gameObjects.push(player);
-    canvasGame.start()
-    console.log(gameObjects);
+    gameObjects.push(player, excalibur, grid);
+    gameCamera.start()
+    document.addEventListener('keydown', (event) => {
+        keyName = event.key;
+        isKeyDown = true;
+    })
+    document.addEventListener('keyup', (event) => {
+        isKeyDown = false;
+    })
 }
 
