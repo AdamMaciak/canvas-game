@@ -8,6 +8,13 @@ class GameMap {
     }
 
     isSolidBlock(row, col) {
-        return 0;
+        switch (this.logicBlocks[row][col]) {
+            case EMPTY_BLOCK:
+                return false;
+            case DIRT_BLOCK:
+                return true;
+            case GRASS_BLOCK:
+                return true;
+        }
     }
 }

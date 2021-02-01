@@ -1,0 +1,3 @@
+class FirstBoss extends GameObject {
+
+}

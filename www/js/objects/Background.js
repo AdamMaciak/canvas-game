@@ -1,16 +1,13 @@
-class Background extends GameObject {
+class Background extends ExtendedGameObject {
 
     constructor(imageBackground) {
         super(0, 0);
-        this.imageBackground = imageBackground;
-        this.offscreenCanvas = document.createElement('canvas');
-        this.offscreenCanvasCtx = this.offscreenCanvas.getContext('2d');
-        this.offscreenCanvas.width = canvas.width;
-        this.offscreenCanvas.height = canvas.height;
-    }
+        this.image = imageBackground;
 
+    }
 
     render() {
-        ctx.drawImage(this.imageBackground, 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(this.image, 0, 0, canvas.width, canvas.height);
     }
+
 }

@@ -1,20 +1,12 @@
 //set const tick game for all gameobject
-class Player extends GameObject {
+class Player extends ExtendedGameObject {
 
-    constructor(playerSprite, x, y, gameCamera) {
-        super(13);
-
-        this.posCanvasX = null;
-        this.posCanvasY = null;
-        this.posX = null;
-        this.posY = null;
+    constructor(playerSprite, playerSpriteLeft, x, y) {
+        super(16.666);
         this.playerSprite = playerSprite;
-        // this.NUMBER_OF_SPRITES = 20;
-        // this.STAY_POSITION = 1;
-        this.LEFT = 0;
-        this.RIGHT = 1;
-        this.directionMove = this.RIGHT;
-        this.BEGINNING_ATTACK = 2;
+        this.playerSpriteLeft = playerSpriteLeft;
+        //only for Sprites
+        this.BEGINNING_ATTACK = 1;
         this.ENDING_ATTACK = 4;
         this.FALLING = 5
         this.BEGINNING_MOVING = 6;
@@ -23,108 +15,184 @@ class Player extends GameObject {
         this.SPRITE_ATTACK_POSTION = this.BEGINNING_ATTACK;
         this.isMoving = false;
         this.isAttack = false;
-        this.isJumping = false;
+        this.isFalling = false;
         this.heightSprite = this.playerSprite.height / 20;
+        this.counterSprite = 0;
+        this.RIGHT = 1;
+        this.LEFT = 0;
+        this.direction = this.RIGHT;
 
-        this.distanceMove = 2;
-        this.isKeyDown = false
-        this.keyName = null;
-        this.gameCamera = gameCamera;
+        this.healthPoints = 100;
+        this.scorePoints = 0;
+
+        //coordination
         this.x = x;
         this.y = y;
-        this.gameCamera.posX = x - canvas.width / 2;
-        this.gameCamera.posY = y - canvas.height / 2;
+        this.updateCameraPosition();
+        this.velocity_x = 5;
+        this.velocity_y = 10;
 
-        //    setInterval(this.shooting.bind(this), 900);
-        document.addEventListener('keydown', (event) => {
-            this.keyName = event.key;
-            this.isKeyDown = true;
-        })
-        document.addEventListener('keyup', (event) => {
-            this.isKeyDown = false;
-            this.isMoving = false;
-            console.log(this.isJumping);
-        })
+        this.gravity = 0.03;
 
-        this.offscreenCanvas = document.createElement('canvas');
-        this.offscreenCanvasCtx = this.offscreenCanvas.getContext('2d');
-        this.offscreenCanvas.width = canvas.width;
-        this.offscreenCanvas.height = canvas.height;
+        this.bottomCollision = false;
+        this.leftCollision = false;
+        this.rightCollision = false;
+        this.topCollision = false;
+
+
+        this.old_x = x;
+        this.old_y = y;
+
+        this.width = 100;
+        this.height = 120;
+
+        this.boundaryBox = true;
     }
 
     render() {
-        this.draw();
+        ctx.drawImage(this.offscreenCanvas, 0, 0, canvas.width, canvas.height);
     }
 
-    //there should be only graphics displaying without logic object
-    draw() {
-        if (this.isAttack) {
-            if (this.SPRITE_ATTACK_POSTION > this.ENDING_ATTACK) {
-                this.SPRITE_ATTACK_POSTION = this.BEGINNING_ATTACK;
-                this.isAttack = false;
-            }
-            ctx.drawImage(this.playerSprite, 0, this.heightSprite * this.SPRITE_ATTACK_POSTION, this.playerSprite.width, (this.playerSprite.height / 20), canvas.width / 2, canvas.height / 2, 50, 50);
-            this.SPRITE_ATTACK_POSTION++;
-        } else {
-            if (this.isMoving && !this.isJumping) {
-                if (this.SPRITE_POSITION >= this.ENDING_MOVING) {
-                    this.SPRITE_POSITION = this.BEGINNING_MOVING;
-                }
-                ctx.drawImage(this.playerSprite, 0, this.heightSprite * this.SPRITE_POSITION, this.playerSprite.width, (this.playerSprite.height / 20), canvas.width / 2, canvas.height / 2, 50, 50);
-                this.SPRITE_POSITION++;
-            } else if (this.isJumping) {
-                ctx.drawImage(this.playerSprite, 0, this.heightSprite * this.FALLING, this.playerSprite.width, (this.playerSprite.height / 20), canvas.width / 2, canvas.height / 2, 50, 50);
-            } else {
-                ctx.drawImage(this.playerSprite, 0, 0, this.playerSprite.width, (this.playerSprite.height / 20), canvas.width / 2, canvas.height / 2, 50, 50);
-            }
-        }
+    updateCameraPosition() {
+        gameCamera.posX = this.x - canvas.width / 2;
+        gameCamera.posY = this.y - canvas.height / 2;
     }
 
     updateState() {
-        // this.y+=2;
-        // this.gameCamera.posY+=2;
-        if (this.isKeyDown) {
-            console.log(`keydown x: ${this.x}, y: '${this.y}'`)
-            switch (this.keyName) {
-                case 's':
-                    //   console.log('key w');
-                    this.y += this.distanceMove;
-                    this.gameCamera.posY += this.distanceMove;
-                    this.isFalling = true;
-                    break;
+        this.old_y = this.y;
+        this.old_x = this.x;
+
+        if (!this.bottomCollision) {
+            this.y += this.velocity_y;
+            this.updateCameraPosition();
+        }
+
+        console.log(`keydown x: ${this.x}, y: '${this.y}'`)
+
+        if (isKeyDown) {
+            switch (keyName) {
                 case 'w':
-                    //   console.log('key s');
-                    this.y -= this.distanceMove;
-                    this.gameCamera.posY -= this.distanceMove;
-                    this.isJumping = true;
+                    console.log('jump');
                     break;
                 case 'd':
-                    // console.log(`key d x: ${this.x}, y: '${this.y}'`);
-                    this.x += this.distanceMove;
-                    this.gameCamera.posX += this.distanceMove;
-                    this.isMoving = true;
+                    if (!this.rightCollision) {
+                        this.x += this.velocity_x;
+                        this.updateCameraPosition();
+                    }
                     break;
                 case 'a':
-                    //   console.log(`key a x: ${this.x}, y: '${this.y}'`);
-                    this.x -= this.distanceMove;
-                    this.gameCamera.posX -= this.distanceMove;
-                    this.isMoving = true;
+                    if (!this.leftCollision) {
+                        this.x -= this.velocity_x;
+                        this.updateCameraPosition();
+                    }
                     break;
                 case 'e':
                     this.isAttack = true;
                     break;
             }
         }
+
+        //Sprite animation
+        if (this.y - this.old_y > 0) {
+            console.log('moving down');
+            this.isFalling = true;
+        } else if (this.x - this.old_x > 0) {
+            console.log('moving right');
+            this.direction = this.RIGHT;
+            this.isMoving = true;
+        } else if (this.old_x - this.x > 0) {
+            console.log('moving left');
+            this.direction = this.LEFT;
+            this.isMoving = true;
+        } else if (this.old_y - this.y > 0) {
+            console.log('jump');
+            this.isFalling = true;
+        } else {
+            this.isFalling = false;
+            this.isMoving = false;
+        }
+
+
+        this.offscreenCanvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (this.direction === this.LEFT) {
+            this.animate(this.playerSpriteLeft);
+        } else if (this.direction === this.RIGHT) {
+            this.animate(this.playerSprite);
+        }
+
+        if (this.boundaryBox) {
+            this.offscreenCanvasCtx.beginPath();
+            this.offscreenCanvasCtx.rect(canvas.width / 2, canvas.height / 2, this.width, this.height);
+            this.offscreenCanvasCtx.strokeStyle = "red";
+            this.offscreenCanvasCtx.stroke();
+        }
     }
 
-    isCollided() {
-        let positionInGridCol = Math.round(this.x / tileSize);
-        let positionInGridRow = Math.round(this.y / tileSize);
 
-        let blockAbove = gameMap.logicBlocks[positionInGridRow - 1][positionInGridCol];
-        let blockRight = gameMap.logicBlocks[positionInGridRow][positionInGridCol + 1];
-        let blockUnder = gameMap.logicBlocks[positionInGridRow + 1][positionInGridCol];
-        let blockLeft = gameMap.logicBlocks[positionInGridRow - 1][positionInGridCol];
+    animate(playerSprite) {
+        if (this.isAttack) {
+            if (this.SPRITE_ATTACK_POSTION > this.ENDING_ATTACK) {
+                this.SPRITE_ATTACK_POSTION = this.BEGINNING_ATTACK;
+                this.isAttack = false;
+            }
+            this.offscreenCanvasCtx.drawImage(playerSprite, 0, this.heightSprite * this.SPRITE_ATTACK_POSTION, this.playerSprite.width, (this.playerSprite.height / 20), canvas.width / 2, canvas.height / 2, this.width, this.height = 120);
+            if (this.counterSprite % 6 === 0) this.SPRITE_ATTACK_POSTION++;
+            this.counterSprite++;
+        } else {
+            if (this.isMoving) {
+                if (this.SPRITE_POSITION >= this.ENDING_MOVING) {
+                    this.SPRITE_POSITION = this.BEGINNING_MOVING;
+                }
+                this.offscreenCanvasCtx.drawImage(playerSprite, 0, this.heightSprite * this.SPRITE_POSITION, this.playerSprite.width, (this.playerSprite.height / 20), canvas.width / 2, canvas.height / 2, this.width, this.height = 120);
+                if (this.counterSprite % 3 === 0) this.SPRITE_POSITION++;
+                this.counterSprite++;
+            } else if (this.isFalling) {
+                this.offscreenCanvasCtx.drawImage(playerSprite, 0, this.heightSprite * this.FALLING, this.playerSprite.width, (this.playerSprite.height / 20), canvas.width / 2, canvas.height / 2, this.width, this.height = 120);
+            } else {
+                this.offscreenCanvasCtx.drawImage(playerSprite, 0, 0, this.playerSprite.width, (this.playerSprite.height / 20), canvas.width / 2, canvas.height / 2, this.width, this.height = 120);
+            }
 
+        }
+    }
+
+    get right() {
+        return this.x + this.width;
+    }
+
+    get oldRight() {
+        return this.old_x + this.width;
+    }
+
+    get left() {
+        return this.x;
+    }
+
+    get oldLeft() {
+        return this.old_x;
+    }
+
+    get centerX() {
+        return this.x + (this.width / 2);
+    }
+
+    get centerY() {
+        return this.y + (this.height / 2);
+    }
+
+    get bottom() {
+        return this.y + this.height;
+    }
+
+    get oldBottom() {
+        return this.old_y + this.height;
+    }
+
+    get top() {
+        return this.y;
+    }
+
+    get oldTop() {
+        return this.old_y;
     }
 }

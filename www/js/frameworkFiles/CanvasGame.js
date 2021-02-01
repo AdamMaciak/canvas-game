@@ -1,6 +1,6 @@
 class CanvasGame {
     constructor() {
-        this.playGameLoop();
+
     }
 
     start() {
@@ -33,8 +33,8 @@ class CanvasGame {
             }
         }
     }
-    collisionDetection()
-    {
+
+    collisionDetection() {
         /* If you need to implement collision detection in your game, then you can overwrite this method in your sub-class. */
         /* If you do not need to implement collision detection, then you do not need to overwrite this method.              */
     }

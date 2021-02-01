@@ -1,9 +1,8 @@
 class WorldBuilder {
-    constructor(gameMap, blocksImage, gameCamera, numberOfItemsInRow) {
+    constructor(gameMap, blocksImage, numberOfItemsInRow) {
         this.sizeTile = blocksImage.width / numberOfItemsInRow;
         this.blocksImage = blocksImage;
         this.gameMap = gameMap;
-        this.gameCamera = gameCamera;
     }
 
     build() {
@@ -32,7 +31,7 @@ class WorldBuilder {
         let y = tileSize * j;
         let spriteX = block.col * this.sizeTile;
         let spriteY = block.row * this.sizeTile;
-        return new Tile(x, y, spriteX, spriteY, this.sizeTile, this.gameCamera, this.blocksImage);
+        return new Tile(x, y, spriteX, spriteY, this.sizeTile, this.blocksImage);
     }
 
     addBackgroundTiles() {
@@ -40,6 +39,6 @@ class WorldBuilder {
     }
 
     drawGridLines() {
-
+        return;
     }
 }

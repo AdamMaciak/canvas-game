@@ -44,8 +44,8 @@ function onAllAssetsLoaded() {
     canvas = document.getElementById("gameCanvas");
     ctx = canvas.getContext("2d");
     //TODO
-    canvas.width = 1280;
-    canvas.height = 720;
+    canvas.width = 1920;
+    canvas.height = 1080;
 
     playGame(); // Each game will include its own .js file, which will hold the game's palyGame() function
 }

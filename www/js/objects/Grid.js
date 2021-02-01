@@ -1,15 +1,11 @@
-class Grid extends GameObject {
-    constructor(gameCamera) {
+class Grid extends ExtendedGameObject {
+    constructor() {
         super(13);
         this.posX = 0;
         this.posY = 0;
         this.posCanvasX = 0;
         this.posCanvasY = 0;
         this.gameCamera = gameCamera;
-        this.offscreenCanvas = document.createElement('canvas');
-        this.offscreenCanvasCtx = this.offscreenCanvas.getContext('2d');
-        this.offscreenCanvas.width = canvas.width;
-        this.offscreenCanvas.height = canvas.height;
     }
 
     render() {
@@ -32,5 +28,4 @@ class Grid extends GameObject {
             this.offscreenCanvasCtx.stroke();
         }
     }
-
 }
