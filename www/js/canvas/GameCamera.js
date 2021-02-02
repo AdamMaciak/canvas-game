@@ -4,9 +4,6 @@ class GameCamera extends CanvasGame {
         super();
         this.posX = posX;
         this.posY = posY;
-        this.menu = 0;
-        this.game = 1;
-        this.stateOfGame = this.menu;
     }
 
 
@@ -18,25 +15,24 @@ class GameCamera extends CanvasGame {
         }
     }
 
-    stopGame() {
-
-    }
-
-    startMenu() {
-
-    }
-
-    stopMenu() {
-
-    }
-
     collisionDetection() {
         //for player
         let player = gameObjects[PLAYER_POSITION];
         this.bottomCollision(player);
         this.rightCollision(player);
         this.leftCollision(player);
+        this.topCollision(player);
         //for enemies
+        for (let i = 0; i < gameObjects.length; i++) {
+            if (gameObjects[i] instanceof Zombie) {
+                this.bottomCollision(gameObjects[i]);
+                this.rightCollision(gameObjects[i]);
+                this.leftCollision(gameObjects[i]);
+                this.topCollision(gameObjects[i]);
+            } else if (gameObjects[i] instanceof Coin && gameObjects[i].isDisplayed()) {
+                this.coinsCollision(gameObjects[i], player);
+            }
+        }
     }
 
 
@@ -79,7 +75,16 @@ class GameCamera extends CanvasGame {
         let row = Math.floor(object.top / tileSize);
         if (gameMap.isSolidBlock(row, col)) {
             object.topCollision = true;
-            console.log('bottomCollision');
+            console.log('topcol');
+        } else {
+            object.topCollision = false;
         }
     }
+
+    coinsCollision(coin, player) {
+        if (Math.sqrt(Math.pow(Math.abs(coin.x - player.centerX), 2) + Math.pow(Math.abs(coin.y - player.centerY), 2)) <= 30) {
+            coin.stopAndHide();
+        }
+    }
+
 }

@@ -10,8 +10,8 @@ class Excalibur extends Sword {
         this.firstPositon = -20;
         this.radiansPerUpdate = 5;
         this.counter = 0;
-        this.boundaryBox = true;
-        this.onTheBeginning();
+        this.boundaryBox = false;
+        this.onTheBeginningRight();
 
         this.LEFT = 0;
         this.RIGHT = 1;
@@ -67,10 +67,35 @@ class Excalibur extends Sword {
         this.offscreenCanvasCtx.translate(-canvas.width / 2 - 40, -canvas.height / 2 - 60)
     }
 
+    animateLeft(swordImage) {
+        this.offscreenCanvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+        this.offscreenCanvasCtx.translate(canvas.width / 2 + 20, canvas.height / 2 + 60)
+        if (this.counter >= this.maxRadians) {
+            this.offscreenCanvasCtx.rotate(Math.radians(-this.maxRadians));
+            this.stopAnimation();
+            this.counter = 0;
+        }
+        this.offscreenCanvasCtx.rotate(Math.radians(-this.radiansPerUpdate));
+        this.counter += this.radiansPerUpdate;
+        this.offscreenCanvasCtx.drawImage(swordImage, 0, -30, 60, 60);
+        if (this.boundaryBox) {
+            this.displayBoundaryBox();
+        }
+        this.offscreenCanvasCtx.stroke();
+        this.offscreenCanvasCtx.translate(-canvas.width / 2 - 20, -canvas.height / 2 - 60)
+    }
 
     stopAnimation() {
         this.isAttacking = false;
         this.offscreenCanvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+       // this.resetSword();
+    }
+
+    resetSword() {
+        this.offscreenCanvas = document.createElement('canvas');
+        this.offscreenCanvasCtx = this.offscreenCanvas.getContext('2d');
+        this.offscreenCanvas.width = canvas.width;
+        this.offscreenCanvas.height = canvas.height;
     }
 
     displayBoundaryBox() {
@@ -80,7 +105,7 @@ class Excalibur extends Sword {
         this.offscreenCanvasCtx.strokeStyle = "red";
     }
 
-    onTheBeginning() {
+    onTheBeginningRight() {
         this.offscreenCanvasCtx.clearRect(0, 0, canvas.width, canvas.height);
         this.offscreenCanvasCtx.translate(canvas.width / 2 + 40, canvas.height / 2 + 60)
         this.offscreenCanvasCtx.rotate(Math.radians(this.firstPositon));

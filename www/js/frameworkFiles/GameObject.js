@@ -51,7 +51,6 @@ class GameObject {
         this.gameObjectIsDisplayed = false;
     }
 
-    //import
     isDisplayed() {
         return (this.gameObjectIsDisplayed);
     }

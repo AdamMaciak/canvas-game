@@ -22,8 +22,9 @@ class Player extends ExtendedGameObject {
         this.LEFT = 0;
         this.direction = this.RIGHT;
 
+
+        this.maxHealthPoints = 100;
         this.healthPoints = 100;
-        this.scorePoints = 0;
 
         //coordination
         this.x = x;
@@ -32,7 +33,9 @@ class Player extends ExtendedGameObject {
         this.velocity_x = 5;
         this.velocity_y = 10;
 
-        this.gravity = 0.03;
+
+        this.isJumping = false;
+        this.jumpingCooldown = false;
 
         this.bottomCollision = false;
         this.leftCollision = false;
@@ -46,7 +49,12 @@ class Player extends ExtendedGameObject {
         this.width = 100;
         this.height = 120;
 
-        this.boundaryBox = true;
+        this.boundaryBox = false;
+
+        this.invicible = false;
+        this.timeInvicible = 500;
+
+        this.weapon = null;
     }
 
     render() {
@@ -67,12 +75,22 @@ class Player extends ExtendedGameObject {
             this.updateCameraPosition();
         }
 
-        console.log(`keydown x: ${this.x}, y: '${this.y}'`)
+        //  console.log(`keydown x: ${this.x}, y: '${this.y}'`)
 
         if (isKeyDown) {
             switch (keyName) {
                 case 'w':
-                    console.log('jump');
+                    if (!this.topCollision && !this.jumpingCooldown) {
+                        console.log('jump');
+                        this.isJumping = true;
+                        this.jumpingCooldown = true;
+                        setTimeout(() => {
+                            this.isJumping = false;
+                        }, 500);
+                        setTimeout(() => {
+                            this.jumpingCooldown = false;
+                        }, 1200);
+                    }
                     break;
                 case 'd':
                     if (!this.rightCollision) {
@@ -92,20 +110,28 @@ class Player extends ExtendedGameObject {
             }
         }
 
+        if (this.isJumping) {
+            if (!this.topCollision) {
+                this.y -= (this.velocity_y * 2);
+            } else if (this.topCollision) {
+                this.isJumping = false;
+            }
+        }
+
         //Sprite animation
         if (this.y - this.old_y > 0) {
-            console.log('moving down');
+            // console.log('moving down');
             this.isFalling = true;
         } else if (this.x - this.old_x > 0) {
-            console.log('moving right');
+            //  console.log('moving right');
             this.direction = this.RIGHT;
             this.isMoving = true;
         } else if (this.old_x - this.x > 0) {
-            console.log('moving left');
+            //  console.log('moving left');
             this.direction = this.LEFT;
             this.isMoving = true;
         } else if (this.old_y - this.y > 0) {
-            console.log('jump');
+            //  console.log('jump');
             this.isFalling = true;
         } else {
             this.isFalling = false;
@@ -152,7 +178,6 @@ class Player extends ExtendedGameObject {
             } else {
                 this.offscreenCanvasCtx.drawImage(playerSprite, 0, 0, this.playerSprite.width, (this.playerSprite.height / 20), canvas.width / 2, canvas.height / 2, this.width, this.height = 120);
             }
-
         }
     }
 

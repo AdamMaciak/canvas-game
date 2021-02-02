@@ -1,0 +1,3 @@
+class StartButton extends gameObjects {
+
+}
