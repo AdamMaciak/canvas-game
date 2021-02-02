@@ -11,6 +11,8 @@ class GameMap {
                 return true;
             case GRASS_BLOCK:
                 return true;
+            case GRASS_BLOCK_FLOAT:
+                return true;
         }
     }
 

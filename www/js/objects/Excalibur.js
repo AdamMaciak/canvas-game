@@ -40,7 +40,7 @@ class Excalibur extends Sword {
         if (this.isAttacking) {
             switch (this.direction) {
                 case this.LEFT:
-                    this.animateRight(this.swordImageLeft);
+                    this.animateLeft(this.swordImageLeft);
                     break;
                 case this.RIGHT:
                     this.animateRight(this.swordImage);
@@ -69,9 +69,9 @@ class Excalibur extends Sword {
 
     animateLeft(swordImage) {
         this.offscreenCanvasCtx.clearRect(0, 0, canvas.width, canvas.height);
-        this.offscreenCanvasCtx.translate(canvas.width / 2 + 20, canvas.height / 2 + 60)
+        this.offscreenCanvasCtx.translate(canvas.width / 2 - 20, canvas.height / 2 + 60)
         if (this.counter >= this.maxRadians) {
-            this.offscreenCanvasCtx.rotate(Math.radians(-this.maxRadians));
+            this.offscreenCanvasCtx.rotate(Math.radians(this.maxRadians));
             this.stopAnimation();
             this.counter = 0;
         }
@@ -82,7 +82,7 @@ class Excalibur extends Sword {
             this.displayBoundaryBox();
         }
         this.offscreenCanvasCtx.stroke();
-        this.offscreenCanvasCtx.translate(-canvas.width / 2 - 20, -canvas.height / 2 - 60)
+        this.offscreenCanvasCtx.translate(-canvas.width / 2 + 20, -canvas.height / 2 - 60)
     }
 
     stopAnimation() {

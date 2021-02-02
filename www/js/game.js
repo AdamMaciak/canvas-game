@@ -2,7 +2,7 @@
 let backgroundImage = new Image();
 backgroundImage.src = "img/background.png";
 let blocksImage = new Image();
-blocksImage.src = "img/tileSet.png";
+blocksImage.src = "img/tileSet2.png";
 let excaliburImage = new Image();
 excaliburImage.src = "img/Excalibur.png"
 let excaliburImageLeft = new Image();
@@ -37,8 +37,8 @@ pistolImage.src = "img/Handgun_right.png";
 const mapLogic1 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 2, 2, 0, 2, 0, 0, 0, 0, 0, 1],
-    [1, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 3, 0, 3, 0, 3, 3, 0, 0, 1],
+    [1, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 1],
     [1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
@@ -47,14 +47,19 @@ const mapLogic1 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 const EMPTY_BLOCK = 0;
 const DIRT_BLOCK = 1;
 const GRASS_BLOCK = 2;
+const GRASS_BLOCK_FLOAT = 3;
 
 const positionOfGrassBlock = {
-    row: 4,
-    col: 3
+    row: 0,
+    col: 1
 }
 const positionOfDirtBlock = {
-    row: 5,
-    col: 3
+    row: 1,
+    col: 1
+}
+const positionOfGrassBlockFloat = {
+    row: 2,
+    col: 5
 }
 
 const tileSize = 128;
@@ -87,7 +92,7 @@ function getRandomIntInclusive(min, max) {
 
 function playGame() {
     console.log('play');
-    let worldBuilder = new WorldBuilder(gameMap, blocksImage, 10);
+    let worldBuilder = new WorldBuilder(gameMap, blocksImage, 8);
     let background = new Background(backgroundImage);
     let player = new Player(playerImage, playerImageLeft, 150, 150);
 

@@ -19,6 +19,8 @@ class WorldBuilder {
                     case GRASS_BLOCK:
                         gameObjects.push(this.createTile(j, i, positionOfGrassBlock))
                         break;
+                    case GRASS_BLOCK_FLOAT:
+                        gameObjects.push(this.createTile(j, i, positionOfGrassBlockFloat))
                     default:
                         break;
                 }
