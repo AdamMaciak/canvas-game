@@ -6,20 +6,37 @@ class Excalibur extends Sword {
         this.swordImage = swordImage;
         this.swordImageLeft = swordImageLeft;
         this.isAttacking = false;
-        this.maxRadians = 140;
-        this.firstPositon = -20;
+
+        this.firstPositon = 0;
+
         this.radiansPerUpdate = 5;
+        this.maxRadians = 120;
         this.counter = 0;
         this.boundaryBox = false;
-        this.onTheBeginningRight();
 
         this.LEFT = 0;
         this.RIGHT = 1;
         this.direction = this.RIGHT;
+
+        //for left
+        this.offscreenCanvas2 = document.createElement('canvas');
+        this.offscreenCanvasCtx2 = this.offscreenCanvas2.getContext('2d');
+        this.offscreenCanvas2.width = canvas.width;
+        this.offscreenCanvas2.height = canvas.height;
+        this.onTheBeginningRight(this.swordImage);
+        this.onTheBeginningLeft(this.swordImageLeft);
     }
 
     render() {
-        ctx.drawImage(this.offscreenCanvas, 0, 0, canvas.width, canvas.height);
+
+        switch (this.direction) {
+            case this.LEFT:
+                ctx.drawImage(this.offscreenCanvas2, 0, 0, canvas.width, canvas.height);
+                break;
+            case this.RIGHT:
+                ctx.drawImage(this.offscreenCanvas, 0, 0, canvas.width, canvas.height);
+                break;
+        }
     }
 
 
@@ -68,53 +85,64 @@ class Excalibur extends Sword {
     }
 
     animateLeft(swordImage) {
-        this.offscreenCanvasCtx.clearRect(0, 0, canvas.width, canvas.height);
-        this.offscreenCanvasCtx.translate(canvas.width / 2 - 20, canvas.height / 2 + 60)
+        this.offscreenCanvasCtx2.clearRect(0, 0, canvas.width, canvas.height);
+        this.offscreenCanvasCtx2.translate(canvas.width / 2 + 40, canvas.height / 2 + 60)
         if (this.counter >= this.maxRadians) {
-            this.offscreenCanvasCtx.rotate(Math.radians(this.maxRadians));
+            this.offscreenCanvasCtx2.rotate(Math.radians(this.maxRadians));
             this.stopAnimation();
             this.counter = 0;
         }
-        this.offscreenCanvasCtx.rotate(Math.radians(-this.radiansPerUpdate));
+        this.offscreenCanvasCtx2.rotate(Math.radians(-this.radiansPerUpdate));
         this.counter += this.radiansPerUpdate;
-        this.offscreenCanvasCtx.drawImage(swordImage, 0, -30, 60, 60);
+        this.offscreenCanvasCtx2.drawImage(swordImage, -60, -30, 60, 60);
         if (this.boundaryBox) {
             this.displayBoundaryBox();
         }
-        this.offscreenCanvasCtx.stroke();
-        this.offscreenCanvasCtx.translate(-canvas.width / 2 + 20, -canvas.height / 2 - 60)
+        this.offscreenCanvasCtx2.stroke();
+        this.offscreenCanvasCtx2.translate(-canvas.width / 2 - 40, -canvas.height / 2 - 60)
     }
 
     stopAnimation() {
         this.isAttacking = false;
-        this.offscreenCanvasCtx.clearRect(0, 0, canvas.width, canvas.height);
-       // this.resetSword();
-    }
-
-    resetSword() {
-        this.offscreenCanvas = document.createElement('canvas');
-        this.offscreenCanvasCtx = this.offscreenCanvas.getContext('2d');
-        this.offscreenCanvas.width = canvas.width;
-        this.offscreenCanvas.height = canvas.height;
+        switch (this.direction) {
+            case this.LEFT:
+                this.offscreenCanvasCtx2.clearRect(0, 0, canvas.width, canvas.height);
+                break;
+            case this.RIGHT:
+                this.offscreenCanvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+                break;
+        }
     }
 
     displayBoundaryBox() {
-
         this.offscreenCanvasCtx.beginPath();
         this.offscreenCanvasCtx.rect(0, -30, 60, 60);
         this.offscreenCanvasCtx.strokeStyle = "red";
     }
 
-    onTheBeginningRight() {
+    onTheBeginningRight(swordImage) {
         this.offscreenCanvasCtx.clearRect(0, 0, canvas.width, canvas.height);
         this.offscreenCanvasCtx.translate(canvas.width / 2 + 40, canvas.height / 2 + 60)
         this.offscreenCanvasCtx.rotate(Math.radians(this.firstPositon));
-        this.offscreenCanvasCtx.drawImage(this.swordImage, 0, -30, 60, 60)
+        this.offscreenCanvasCtx.drawImage(swordImage, 0, -30, 60, 60)
         if (this.boundaryBox) {
             this.displayBoundaryBox();
         }
         this.offscreenCanvasCtx.stroke();
         this.offscreenCanvasCtx.translate(-canvas.width / 2 - 40, -canvas.height / 2 - 60)
+    }
+
+
+    onTheBeginningLeft(swordImage) {
+        this.offscreenCanvasCtx2.clearRect(0, 0, canvas.width, canvas.height);
+        this.offscreenCanvasCtx2.translate(canvas.width / 2 + 50, canvas.height / 2 + 60)
+        this.offscreenCanvasCtx2.rotate(Math.radians(this.firstPositon));
+        this.offscreenCanvasCtx2.drawImage(swordImage, -60, -30, 60, 60)
+        if (this.boundaryBox) {
+            this.displayBoundaryBox();
+        }
+        this.offscreenCanvasCtx2.stroke();
+        this.offscreenCanvasCtx2.translate(-canvas.width / 2 - 50, -canvas.height / 2 - 60)
     }
 }
 

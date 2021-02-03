@@ -13,6 +13,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
+//test function
 function addToDb() {
     db.collection("cities").add({
         name: "Los Angeles",
