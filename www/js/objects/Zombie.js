@@ -52,6 +52,7 @@ class Zombie extends ExtendedGameObject {
         if (this.healthPoints < 0) {
             this.stopAndHide();
             this.dropCoin();
+            monsterLeft--;
         }
 
         this.old_y = this.y;

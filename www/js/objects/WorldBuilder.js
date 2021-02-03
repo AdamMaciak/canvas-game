@@ -35,12 +35,4 @@ class WorldBuilder {
         let spriteY = block.row * this.sizeTile;
         return new Tile(x, y, spriteX, spriteY, this.sizeTile, this.blocksImage);
     }
-
-    addBackgroundTiles() {
-        return;
-    }
-
-    drawGridLines() {
-        return;
-    }
 }

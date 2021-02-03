@@ -19,6 +19,9 @@ class HealthBar extends ExtendedGameObject {
         this.offscreenCanvasCtx.rect(30, 30, this.width, this.height);
         this.offscreenCanvasCtx.strokeStyle = "black";
         this.offscreenCanvasCtx.stroke();
+        this.offscreenCanvasCtx.font = "30px Arial";
+        this.offscreenCanvasCtx.fillStyle = "black";
+        this.offscreenCanvasCtx.fillText(this.player.healthPoints + "/" + this.player.maxHealthPoints, -10 + this.width / 2, 30 + this.height / 2);
         this.updatePosition();
     }
 

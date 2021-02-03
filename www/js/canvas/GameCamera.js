@@ -15,6 +15,10 @@ class GameCamera extends CanvasGame {
         }
     }
 
+    render() {
+        super.render();
+    }
+
     collisionDetection() {
         //for player
         let player = gameObjects[PLAYER_POSITION];
@@ -84,6 +88,7 @@ class GameCamera extends CanvasGame {
     coinsCollision(coin, player) {
         if (Math.sqrt(Math.pow(Math.abs(coin.x - player.centerX), 2) + Math.pow(Math.abs(coin.y - player.centerY), 2)) <= 30) {
             coin.stopAndHide();
+            coinGathered++;
         }
     }
 
