@@ -21,6 +21,16 @@ darkMagicianImage.src = "img/darkmagician.png";
 let coinImage = new Image();
 coinImage.src = "img/coin.png";
 
+let buttonLeft = new Image();
+let buttonRight = new Image();
+let buttonJump = new Image();
+let buttonAttack = new Image();
+
+buttonLeft.src = "img/left.png";
+buttonRight.src = "img/right.png";
+buttonJump.src = "img/jump.png";
+buttonAttack.src = "img/attack.png";
+
 let bg1 = new Image();
 let bg2 = new Image();
 let bg3 = new Image();
@@ -37,10 +47,17 @@ pistolImage.src = "img/Handgun_right.png";
 const mapLogic1 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 3, 0, 3, 0, 3, 3, 0, 0, 1],
     [1, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 1],
     [1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+    [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ];
 
@@ -84,9 +101,15 @@ const tickGame = 16.666;
 const gun = 1;
 const sword = 0;
 
-let monsterLeft = null;
+let monsterLeft = 100;
 let coinGathered = 0;
-let playerHealth = null;
+let playerHealth = 100;
+
+let isTouchDown = false;
+let touchPosition = {
+    x: null,
+    y: null
+}
 
 function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
@@ -96,34 +119,52 @@ function getRandomIntInclusive(min, max) {
 
 function playGame() {
     console.log('play');
+    player = new Player(playerImage, playerImageLeft, 150, 150);
     startLevel1();
     console.log(gameObjects);
     document.addEventListener('keydown', (event) => {
         keyName = event.key;
         isKeyDown = true;
-    })
+    });
     document.addEventListener('keyup', (event) => {
         isKeyDown = false;
-    })
+    });
+    canvas.addEventListener("mousedown", function (e) {
+        setMousePosition(canvas, e);
+        isTouchDown = true
+    });
+    canvas.addEventListener("mouseup", function (e) {
+        isTouchDown = false;
+    });
 }
+
+function setMousePosition(canvas, event) {
+    let rect = canvas.getBoundingClientRect();
+    touchPosition.x = event.clientX - rect.left;
+    touchPosition.y = event.clientY - rect.top;
+    console.log("Coordinate x: " + touchPosition.x,
+        "Coordinate y: " + touchPosition.y);
+}
+
 
 function startLevel1() {
     let worldBuilder = new WorldBuilder(gameMap, blocksImage, 8);
     let background = new Background(bg3, bg2, bg1);
-    player = new Player(playerImage, playerImageLeft, 150, 150);
+
 
     let healthBar = new HealthBar(player);
     let excalibur = new Excalibur(100, 100, excaliburImage, excaliburImageLeft);
-    let grid = new Grid();
 
     let textInGame = new TextInGame();
+    let controllers = new Controllers(buttonLeft, buttonRight, buttonAttack, buttonJump);
     gameObjects.push(background);
     gameObjects.push(player);
     worldBuilder.build()
-    gameObjects.push(excalibur, grid, healthBar, textInGame);
+    gameObjects.push(excalibur, healthBar, textInGame, controllers);
+    //gameObjects.push(excalibur, grid, healthBar, textInGame);
     gameCamera.startGame()
 
-    monsterLeft = 5;
+    monsterLeft = 10;
     let zombie1 = new Zombie(zombieImage, zombieImageLeft, 700, 200, player);
     let zombie2 = new Zombie(zombieImage, zombieImageLeft, 500, 150, player);
     let zombie3 = new Zombie(zombieImage, zombieImageLeft, 300, 200, player);
@@ -148,5 +189,10 @@ function startLevel1() {
         gameObjects.push(zombie5)
     }, 15000);
 
+    setInterval(() => {
+        let zombie = new Zombie(zombieImage, zombieImageLeft, getRandomIntInclusive(200, 1000), getRandomIntInclusive(300, 500), player);
+        zombie.start();
+        gameObjects.push(zombie);
+    }, 5000)
 }
 

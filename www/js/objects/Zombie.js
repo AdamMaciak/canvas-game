@@ -40,6 +40,8 @@ class Zombie extends ExtendedGameObject {
 
         this.healthPoints = 50;
         this.maxHealthPoints = 50;
+
+        this.isKilled = false;
     }
 
     render() {
@@ -50,6 +52,7 @@ class Zombie extends ExtendedGameObject {
 
     updateState() {
         if (this.healthPoints < 0) {
+            this.isKilled = true;
             this.stopAndHide();
             this.dropCoin();
             monsterLeft--;
@@ -58,7 +61,6 @@ class Zombie extends ExtendedGameObject {
         this.old_y = this.y;
         this.old_x = this.x;
 
-        console.log(`keydown x: ${this.x} ${this.old_x}, y: '${this.y}'`);
         if (!this.bottomCollision) {
             this.y += this.velocity_y;
         }
@@ -99,13 +101,41 @@ class Zombie extends ExtendedGameObject {
             }
         }
 
+        if (isTouchDown) {
+            if ((touchPosition.x >= 1000 && touchPosition.x < 1200) && (touchPosition.y <= 700 && touchPosition.y >= 600)) {
+                if (Math.abs(this.player.centerX - this.x) <= 50 && (this.player.centerY < this.bottom && this.player.centerY > this.top)) {
+                    if (!this.invicible) {
+                        if (this.player.direction === this.player.RIGHT) {
+                            this.healthPoints -= 10;
+                            this.invicible = true;
+                            setTimeout(() => {
+                                this.invicible = false;
+                            }, this.timeInvicible);
+                            this.x += 50;
+                        }
+                    }
+                } else if (Math.abs(this.x + this.width - this.player.centerX) <= 50 && (this.player.centerY < this.bottom && this.player.centerY > this.top)) {
+                    if (!this.invicible) {
+                        if (this.player.direction === this.player.LEFT) {
+                            this.healthPoints -= 10;
+                            this.invicible = true;
+                            setTimeout(() => {
+                                this.invicible = false;
+                            }, this.timeInvicible);
+                            this.x -= 50;
+                        }
+                    }
+                }
+            }
+        }
+
         //animations
         if (this.x - this.old_x > 0) {
-            console.log('moving right zombie');
+            // console.log('moving right zombie');
             this.direction = this.RIGHT;
             this.isMoving = true;
         } else if (this.old_x - this.x > 0) {
-            console.log('moving left zombie');
+            //  console.log('moving left zombie');
             this.direction = this.LEFT;
             this.isMoving = true;
         }
@@ -114,12 +144,14 @@ class Zombie extends ExtendedGameObject {
         if (!this.player.invicible) {
             if (Math.abs(this.left - this.player.centerX) <= 20 && (this.player.centerY < this.bottom && this.player.centerY > this.top)) {
                 this.player.healthPoints -= this.damage;
+                playerHealth = this.player.healthPoints;
                 this.player.invicible = true;
                 setTimeout(() => {
                     this.player.invicible = false;
                 }, this.player.timeInvicible);
             } else if (Math.abs(this.right - this.player.centerX) <= 20 && (this.player.centerY < this.bottom && this.player.centerY > this.top)) {
                 this.player.healthPoints -= this.damage;
+                playerHealth = this.player.healthPoints;
                 this.player.invicible = true;
                 setTimeout(() => {
                     this.player.invicible = false;

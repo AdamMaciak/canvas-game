@@ -64,6 +64,16 @@ class Excalibur extends Sword {
                     break;
             }
         }
+
+        if (isTouchDown) {
+            if ((touchPosition.x >= 1000 && touchPosition.x < 1200) && (touchPosition.y <= 700 && touchPosition.y >= 600)) {
+                this.isAttacking = true;
+            } else if ((touchPosition.x >= 300 && touchPosition.x < 500) && (touchPosition.y <= 700 && touchPosition.y >= 600)) {
+                this.direction = this.RIGHT;
+            } else if ((touchPosition.x >= 100 && touchPosition.x < 200) && (touchPosition.y <= 700 && touchPosition.y >= 600)) {
+                this.direction = this.LEFT;
+            }
+        }
     }
 
     animateRight(swordImage) {

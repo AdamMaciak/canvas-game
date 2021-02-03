@@ -110,6 +110,34 @@ class Player extends ExtendedGameObject {
             }
         }
 
+        if (isTouchDown) {
+            if ((touchPosition.x >= 300 && touchPosition.x < 500) && (touchPosition.y <= 700 && touchPosition.y >= 600)) {
+                if (!this.rightCollision) {
+                    this.x += this.velocity_x;
+                    this.updateCameraPosition();
+                }
+            } else if ((touchPosition.x >= 100&& touchPosition.x < 200) && (touchPosition.y <= 700 && touchPosition.y >= 600)) {
+                if (!this.leftCollision) {
+                    this.x -= this.velocity_x;
+                    this.updateCameraPosition();
+                }
+            } else if ((touchPosition.x >= 1300 && touchPosition.x < 1400) && (touchPosition.y <= 700 && touchPosition.y >= 600)) {
+                if (!this.topCollision && !this.jumpingCooldown) {
+                    console.log('jump');
+                    this.isJumping = true;
+                    this.jumpingCooldown = true;
+                    setTimeout(() => {
+                        this.isJumping = false;
+                    }, 500);
+                    setTimeout(() => {
+                        this.jumpingCooldown = false;
+                    }, 1200);
+                }
+            } else if ((touchPosition.x >= 1000 && touchPosition.x < 1200) && (touchPosition.y <= 700 && touchPosition.y >= 600)) {
+                this.isAttack = true;
+            }
+        }
+
         if (this.isJumping) {
             if (!this.topCollision) {
                 this.y -= (this.velocity_y * 2);
