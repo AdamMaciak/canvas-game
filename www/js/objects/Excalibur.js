@@ -132,9 +132,9 @@ class Excalibur extends Sword {
 
     onTheBeginningRight(swordImage) {
         this.offscreenCanvasCtx.clearRect(0, 0, canvas.width, canvas.height);
-        this.offscreenCanvasCtx.translate(canvas.width / 2 + 40, canvas.height / 2 + 60)
+        this.offscreenCanvasCtx.translate(canvas.width / 2 + 40, canvas.height / 2 + 60);
         this.offscreenCanvasCtx.rotate(Math.radians(this.firstPositon));
-        this.offscreenCanvasCtx.drawImage(swordImage, 0, -30, 60, 60)
+        this.offscreenCanvasCtx.drawImage(swordImage, 0, -30, 60, 60);
         if (this.boundaryBox) {
             this.displayBoundaryBox();
         }
@@ -145,9 +145,9 @@ class Excalibur extends Sword {
 
     onTheBeginningLeft(swordImage) {
         this.offscreenCanvasCtx2.clearRect(0, 0, canvas.width, canvas.height);
-        this.offscreenCanvasCtx2.translate(canvas.width / 2 + 50, canvas.height / 2 + 60)
+        this.offscreenCanvasCtx2.translate(canvas.width / 2 + 50, canvas.height / 2 + 60);
         this.offscreenCanvasCtx2.rotate(Math.radians(this.firstPositon));
-        this.offscreenCanvasCtx2.drawImage(swordImage, -60, -30, 60, 60)
+        this.offscreenCanvasCtx2.drawImage(swordImage, -60, -30, 60, 60);
         if (this.boundaryBox) {
             this.displayBoundaryBox();
         }

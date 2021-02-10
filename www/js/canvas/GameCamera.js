@@ -35,7 +35,7 @@ class GameCamera extends CanvasGame {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.font = "60px Arial";
             ctx.fillStyle = "black";
-            ctx.fillText("End Game", canvas.width / 2 - 100, canvas.height / 2);
+            ctx.fillText("You win", canvas.width / 2 - 100, canvas.height / 2);
         }
     }
 
@@ -67,7 +67,7 @@ class GameCamera extends CanvasGame {
         let row = Math.floor(object.centerY / tileSize);
         if (gameMap.isSolidBlock(row, col)) {
             object.leftCollision = true;
-           // console.log('leftcol');
+            // console.log('leftcol');
         } else {
             object.leftCollision = false;
         }
@@ -78,7 +78,7 @@ class GameCamera extends CanvasGame {
         let row = Math.floor(object.centerY / tileSize);
         if (gameMap.isSolidBlock(row, col)) {
             object.rightCollision = true;
-           // console.log('rightcol');
+            // console.log('rightcol');
         } else {
             object.rightCollision = false;
         }
@@ -89,7 +89,7 @@ class GameCamera extends CanvasGame {
         let row = Math.floor(object.bottom / tileSize);
         if (gameMap.isSolidBlock(row, col)) {
             object.bottomCollision = true;
-           // console.log('bottomCollision');
+            // console.log('bottomCollision');
         } else {
             object.bottomCollision = false;
         }
@@ -100,7 +100,7 @@ class GameCamera extends CanvasGame {
         let row = Math.floor(object.top / tileSize);
         if (gameMap.isSolidBlock(row, col)) {
             object.topCollision = true;
-          //  console.log('topcol');
+            //  console.log('topcol');
         } else {
             object.topCollision = false;
         }

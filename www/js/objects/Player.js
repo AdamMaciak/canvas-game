@@ -116,7 +116,7 @@ class Player extends ExtendedGameObject {
                     this.x += this.velocity_x;
                     this.updateCameraPosition();
                 }
-            } else if ((touchPosition.x >= 100&& touchPosition.x < 200) && (touchPosition.y <= 700 && touchPosition.y >= 600)) {
+            } else if ((touchPosition.x >= 100 && touchPosition.x < 200) && (touchPosition.y <= 700 && touchPosition.y >= 600)) {
                 if (!this.leftCollision) {
                     this.x -= this.velocity_x;
                     this.updateCameraPosition();
